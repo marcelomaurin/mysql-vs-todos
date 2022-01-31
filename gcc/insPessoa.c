@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <mysql.h>
 
 #define USER "root"
@@ -50,7 +51,7 @@ typedef struct PESSOAS {
   char nome[30];
   char dtnasc[20];
   char profissao[20];
-  short int sexo;
+  char sexo;
 } PESSOAS;
 
 
@@ -62,8 +63,8 @@ void desconecta(void){
 
 int insere( PESSOAS *pes){
   char sql[500];
-  memset(sql,'/0',sizeof(sql));
-  sprintf(sql,"insert into pessoas (nome, dtnasc, profissao, sexo) values ('%s','%s','%s','%s');", 
+  memset(sql,'\0',sizeof(sql));
+  sprintf(sql,"insert into pessoas (nome, dtnasc, profissao, sexo) values ('%s','%s','%s','%c');", 
        pes->nome,
 	   pes->dtnasc,
 	   pes->profissao,
@@ -79,10 +80,14 @@ int insere( PESSOAS *pes){
 void captura_dados(PESSOAS *pes){
 	printf("Digite as informações que deseja registrar\n");
 	printf("==========================================\n");
-	scanf(pes->nome,"\nNome:%s");
-	scanf(pes->dtnasc,"\nData:%d");
-	scanf(pes->profissao,"\nProfissao:%s");
-	scanf(pes->Sexo,"\nSexo(M/F):%s");	
+	printf("\nNome:");
+	scanf("%s",pes->nome);
+	printf("\nDt Nascimento:");
+	scanf("%s",pes->dtnasc);
+	printf("\nProfissao:");
+	scanf("%s",pes->profissao);
+	printf("\nSexo(M/F):");
+	scanf("%c",&pes->sexo);	
 	printf("\n\n");
 }
 
