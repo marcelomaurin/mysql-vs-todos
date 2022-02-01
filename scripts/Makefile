@@ -6,9 +6,13 @@
 
 APP=mysql
 
-all:  database
+all:  database permissoes Tabelas
 database:
 	$(APP)  < database.sql
+permissoes:
+	$(APP) < grants.sql
+Tabelas:
+	$(APP) < pessoas.sql
 
 
 

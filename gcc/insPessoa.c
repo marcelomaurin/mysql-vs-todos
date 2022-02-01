@@ -3,16 +3,17 @@
 #include <string.h>
 #include <mysql.h>
 
-#define USER "root"
+#define USER "gcc"
 #define HOST "127.0.0.1"
 #define DATABASE "testedb"
+#define PASS "123456"
 
 
 #define SUCCESS 0
 #define ERROR 1
 
 MYSQL *mycon;
-char PASS[20];
+//char PASS[20];
 int res;
 
 int conecta(void){
@@ -99,8 +100,8 @@ void Wellcome(void){
    printf("Software insPessoa\n");
    printf("Criado por Marcelo Maurin Martins\n");
    printf("Maurinsoft.com.br\n");
-   printf("Senha do banco:");
-   scanf("%s",PASS);
+   //printf("Senha do banco:");
+   //scanf("%s",PASS);
 }
 
 //funcao principal
