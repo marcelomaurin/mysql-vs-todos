@@ -4,7 +4,7 @@
 #include <mysql.h>
 
 #define USER "gcc"
-#define HOST "127.0.0.1"
+#define HOST "localhost"
 #define DATABASE "testedb"
 #define PASS "123456"
 
@@ -28,7 +28,7 @@ int conecta(void){
                    const char *unix_socket,
                    unsigned long client_flag)
 				  */
-	if((res = mysql_real_connect(
+	res = mysql_real_connect(
 				  mycon, 
 				  HOST, 
 				  USER,
@@ -36,7 +36,8 @@ int conecta(void){
 				  DATABASE,
 				  0, 
 				  NULL,
-				  0)==SUCCESS))
+				  0);
+	if(res != NULL)
 	{
 		printf("Sucesso na conexão com servidor\n");
 		return SUCCESS;
@@ -73,7 +74,7 @@ int insere( PESSOAS *pes){
 	   pes->sexo);
   printf("SQL:%s\n\n",sql);	   
   //mysql_prepare(
-  res = mysql_real_query(mycon,sql,sizeof(sql));
+  res = mysql_query(mycon,sql);
   if(!res) {
 	  printf("Registrado com sucesso!\n");
   }  else {
