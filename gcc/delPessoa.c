@@ -65,7 +65,7 @@ int Delete( PESSOAS *pes){
   //mysql_prepare(
   res = mysql_query(mycon,sql);
   mysql_commit(mycon);
-  if(res) {
+  if(!res) {
 	  printf("Excluido com sucesso!\n");
   }  else {
 	  printf("Falha na deleção\n");
