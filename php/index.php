@@ -1,98 +1,295 @@
+﻿
+<?php
+  //Controla o Debug no projeto
+  ini_set('display_errors', 'On');
+  
+  include "sessao.php";
+  include "config.php";
+  include "funcs.php";
+?>
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Hugo 0.88.1">
-    <title>Top navbar example · Bootstrap v5.1</title>
+<html>
+	<header>
+		<title>Cadastro de Pessoas</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+		<!-- Latest compiled and minified CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
-    <link rel="canonical" href="https://getbootstrap.com/docs/5.1/examples/navbar-static/">
+		<!-- jQuery library -->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-    
+		<!-- Latest compiled JavaScript -->
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		
+	</header>
+	<body>
 
-    <!-- Bootstrap core CSS -->
-<link href="https://getbootstrap.com/docs/5.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+	    
+		<div ng-app="Pessoas" ng-controller="cntrl" >
+			<div class="container-fluid bg-1 text-rigth">
+				<form>
+					<?  Pesquisar Itens ?>
+					<div class="jumbotron">
+							<h1>Cadastro de Pessoas</h1>							
+							<p>Modelo de aplicação MVC, conforme <a href="http://maurinsoft.com.br/index.php/2022/02/04/mysql-com-c-lazarus-python-php-r-parte-3/">Artigo publicado.</a></p>
+							<p>Para maiores informações <a href="mailto:marcelomaurinmartins@gmail.com">marcelomaurinmartins@gmail.com</a></p>
+					</div>
+					<div class="row">
+						<div class="col-sm-1">idPessoa:</div>
+						<div class="col-sm-2"><input class="form-control" placeholder="idPessoa (opcional)" type="text" ng-model="pidpessoa" name="pidpessoa"></div>					
+					</div>			
+					<div class="separador">
+					</div>			
+					<div class="row">
+						<div class="col-sm-1">Nome:</div>
+						<div class="col-sm-4"><input class="form-control" placeholder="nome (opcional)" type="text" ng-model="pnome" name="pnome"></div>					
+					</div>	
+					<div class="separador">
+					</div>	
+							
+					<div class="row">
+						<div class="col-sm-1">Profissão:</div>
+						<div class="col-sm-4"><input class="form-control" placeholder="profissao (opcional)" type="text" ng-model="pprofissao" name="pprofissao"></div>											
+					</div>	
+					<div class="separador">
+					</div>						
+					<div class="row">					
+					    <div class="col-sm-1">Dt. Nascimento:</div>
+						<div class="col-sm-4"><input class="form-control" placeholder="dt Nascimento (yyyy-mm-dd) (opcional)" type="text" ng-model="pdtnasc" name="pdtnasc"></div>											
+					</div>						
+					<div class="separador">
+					<div class="row">					
+					    <div class="col-sm-1">Sexo:</div>
+						<div class="col-sm-4"><input class="form-control" placeholder="Genero sexual (M/F) (opcional)" type="text" ng-model="psexo" name="psexo"></div>											
+					</div>						
+					<div class="separador">					
+					</div>	
+					<div class="row">
+						<div class="col-sm-1"></div>
+						<div class="col-sm-4"></div>																
+						<div class="col-sm-1"> <input type="button" class="btn btn-primary"  value="Pesquisar" ng-click="displayPessoa(pidpessoa,pnome,pprofissao,psexo,pdtnasc)" > </div> 
+						<div class="col-sm-1">  </div> 
+						<div class="col-sm-1"> <input type="button" class="btn btn-primary"  value="Novo Item" ng-click="newPessoa(pidpessoa)" > </div> 
+					
+					</div>
+					
+					
+					<? Retorno de mensagem de erro ?>
+					<div class="info">
+						<div class="control-label">Alerta:</div>
+						<div class="info">{{msg}}</div>
+					</div>
+				</form>
+			</div>
+			<? layout da tabela de resposta ?>
+			<div class="container-fluid bg-1 text-rigth">
+				
+				<? **Cadastrar itens** ?>
+				<div id="cadastro" ng-style="disableInsert" >
+					<div class="row">
+						<div class="col-sm-12"> <h3>Operação Insert registro </h3></div>	
+					</div>					
+					<div class="row">
+						<div class="col-sm-1 control-label"> Nome: </div>
+						<div class="col-sm-4"> <input  class="form-control" placeholder=" Nome da pessoa" type="text" ng-model="nome" name="nome"> </div>	
+					</div>
+					<div class="row">
+						<div class="col-sm-1 control-label"> Profissão</div>
+						<div class="col-sm-4"> <input class="form-control"  placeholder=" Profissão da pessoa" type="text" ng-model="profissao" name="profissao"></div>
+					</div>									
+					<div class="row">
+						<div class="col-sm-1 control-label"> Dt. Nascimento</div>
+						<div class="col-sm-4"> <input class="form-control"  placeholder=" Dt nascimento (YYYY-mm-dd)" type="text" ng-model="dtnasc" name="dtnasc"></div>
+					</div>	
+					<div class="row">
+						<div class="col-sm-1 control-label">Sexo</div>
+						<div class="col-sm-4"> <input class="form-control"  placeholder=" Sexo de Nascimento (M/F)" type="text" ng-model="sexo" name="sexo"></div>
+					</div>				
+					<div class="row">
+						<div class="col-sm-4"></div>
+						<div class="col-sm-1 control-label">  </div> 
+						<div> <input type="button" class="btn btn-primary" value="submit" ng-click="insertPessoa()" > </div> 					
+					</div>
+				</div>
+			</div>
+			
+			<div class="container-fluid bg-1 text-rigth">
+				
+				<? *** Update *** ?>
+				<div id="edicao" ng-style="disableUpdate" class="container-fluid bg-1 text-rigth">
+					<div class="row">
+						<div class="col-sm-12"> <h3>Operacao de Edicao</h3></div>
+					</div>
+					<div class="row">
+						<div class="col-sm-1 control-label"> idPessoa:</div><div> {{edidpessoa}}</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-1 control-label"> Nome</div>
+						<div class="col-sm-4"> <input class="form-control"  type="text" ng-model="ednome" name="ednome"></div>
+					</div>				
+					<div class="row">
+						<div class="col-sm-1 control-label"> Profissão</div>
+						<div class="col-sm-4"> <input class="form-control"  type="text" ng-model="edprofissao" name="edprofissao"></div>
+					</div>									
+					<div class="row">
+						<div class="col-sm-1 control-label"> Dt. Nascimento</div>
+						<div class="col-sm-4"> <input class="form-control"  type="text" ng-model="eddtnasc" name="eddtnasc"></div>
+					</div>	
+					<div class="row">
+						<div class="col-sm-1 control-label">Sexo</div>
+						<div class="col-sm-4"> <input class="form-control"  type="text" ng-model="edsexo" name="edsexo"></div>
+					</div>									
+					<div class="row">
+						<div class="col-sm-4"></div>
+						<div class="col-sm-1"> <button class="btn btn-primary" ng-click="updatePessoa(edidpessoa,ednome, edprofissao, eddtnasc, edsexo)">Atualizar</button></div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="container-fluid bg-1 text-rigth">
+				<div class="row">
+				<hr>
+				</div>
+			</div>
+				
+			<? ** Tela de Resultado **?>
+			<div class="container-fluid bg-1 text-rigth">
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>IdPessoa</th>
+							<th>Nome</th>
+							<th>Profissão</th>
+							<th>Dt. Nascimento</th>
+							<th>Sexo</th>
+											
+						<tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="dados in data.rs">
+							<td>{{dados.idpessoa}}</td>
+							<td>{{dados.nome}}</td>						
+							<td>{{dados.profissao}}</td>	
+							<td>{{dados.dtnasc}}</td>	
+							<td>{{dados.sexo}}</td>	
+							<td><button class="btn btn-primary" ng-click="deletePessoa(dados.idpessoa);">Delete</button></td>
+							<td><button class="btn btn-primary" ng-click="HabilitaEdicao(dados);">Edit</button></td>
+						</tr>
+					</tbody>
+				</table>
+				
+				
+			</div>
+			
+			
+			
+			<? *** Controler *** ?>
+			<script>
+				var app = angular.module('Pessoas',[]);
+				app.controller('cntrl', function($scope,$http)
+				{
+				    $scope.disableUpdate = {'display': 'none'}; //Atribui Edicao invisivel
+					$scope.disableInsert = {'display': 'none'}; //Atribui Edicao invisivel
+					
+					//Mostra  os Jobs				
+					$scope.insertPessoa=function()
+					{
+						$http.post("/exemplos/phpmysql/ws/iPessoa.php",{'nome':$scope.nome,'profissao':$scope.profissao,'dtnasc':$scope.dtnasc,'sexo':$scope.sexo})
+						.success(function()
+						{
+							$scope.msg = "nome foi cadastrado com sucesso";
+							$scope.displayPessoa();
+						})
+					}
 
-    <!-- Favicons -->
-<link rel="apple-touch-icon" href="https://getbootstrap.com/docs/5.1/assets/img/favicons/apple-touch-icon.png" sizes="180x180">
-<link rel="icon" href="https://getbootstrap.com/docs/5.1/assets/img/favicons/favicon-32x32.png" sizes="32x32" type="image/png">
-<link rel="icon" href="https://getbootstrap.com/docs/5.1/assets/img/favicons/favicon-16x16.png" sizes="16x16" type="image/png">
-<link rel="manifest" href="https://getbootstrap.com/docs/5.1/assets/img/favicons/manifest.json">
-<link rel="mask-icon" href="https://getbootstrap.com/docs/5.1/assets/img/favicons/safari-pinned-tab.svg" color="#7952b3">
-<link rel="icon" href="https://getbootstrap.com/docs/5.1/assets/img/favicons/favicon.ico">
-<meta name="theme-color" content="#7952b3">
+					$scope.displayPessoa=function(pidpessoa,pnome,pprofissao,psexo,pdtnasc)
+					{
+					    $scope.disableUpdate = {'display': 'none'}; //Atribui Edicao invisivel
+						$scope.disableInsert = {'display': 'none'}; //Atribui Edicao invisivel
+						
+						if (typeof pidpessoa == "undefined") 
+						{
+							pidpessoa = "";
+						}	
+						if (typeof pnome == "undefined") 
+						{
+							pnome = "";
+						}	
+						if (typeof psexo == "undefined") 
+						{
+							psexo = "";
+						}	
+						if (typeof pprofissao == "undefined") 
+						{
+							pprofissao = "";
+						}	
+						if (typeof pdtnasc == "undefined") 
+						{
+							pdtnasc = "";
+						}	
+
+						var params = {"idpessoa": pidpessoa, "nome": pnome, "profissao": pprofissao, "sexo": psexo, "dtnasc": pdtnasc };
+						var config = {params: params};
+						
+						
+						$http.get("/exemplos/phpmysql/ws/sPessoa.php",config)
+						.success(function(data)
+						{
+							$scope.data = data;
+							$scope.msg = "Tela Atualizada!";
+						})
+						.error(function()
+						{
+							$scope.msg = "Pesquisa retornou vazia";
+							$scope.data = null;
+						}) 
+					}
+					
+					$scope.deletePessoa=function(idpessoa)
+					{
+						$http.post("/exemplos/phpmysql/ws/dPessoa.php",{'idpessoa':idpessoa})
+						.success(function()
+						{					
+							$scope.displayPessoa();
+							$scope.msg = "Registro excluido!";
+						})
+					}
+					
+					//Mostra  os Jobs				
+					$scope.newPessoa=function()
+					{
+						$scope.disableInsert = {'display': 'block'}; 
+						$scope.disableUpdate = {'display': 'none'}; 
+						$scope.edidpessoa = "";
+						$scope.ednome = "";
+						
+					}					
+					
+					$scope.HabilitaEdicao=function(dado)
+					{
+						$scope.disableUpdate = {'display': 'block'}; 
+						$scope.edidpessoa = dado.idpessoa;
+						$scope.ednome = dado.nome;						
+					}
+					
+					
+					$scope.updatePessoa=function(edidpessoa, ednome, edprofissao, eddtnasc, edsexo)
+					{
+						$http.post("/exemplos/phpmysql/ws/uPessoa.php",{'pesidpessoa':edidpessoa,'nome':ednome,'profissao':edprofissao,'dtnasc':eddtnasc,'sexo':edsexo})
+						.success(function()
+						{					
+							$scope.displayPessoa();
+							$scope.msg = "Registro excluido!";
+							
+							$scope.disableUpdate = {'display': 'none'}; 
+							$scope.displayPessoa();
+						})
+					}
+
+				});
+			</script>
 
 
-    <style>
-      .bd-placeholder-img {
-        font-size: 1.125rem;
-        text-anchor: middle;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        user-select: none;
-      }
-
-      @media (min-width: 768px) {
-        .bd-placeholder-img-lg {
-          font-size: 3.5rem;
-        }
-      }
-    </style>
-
-    
-    <!-- Custom styles for this template -->
-    <link href="navbar-top.css" rel="stylesheet">
-  </head>
-  <body>
-    
-<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
-  <div class="container-fluid">
-    <a class="navbar-brand" href="#">Maurinsoft</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarCollapse">
-      <ul class="navbar-nav me-auto mb-2 mb-md-0">
-        <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="http://maurinsoft.com.br">site</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link disabled">Disabled</a>
-        </li>
-      </ul>
-      <form class="d-flex">
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-        <button class="btn btn-outline-success" type="submit">Search</button>
-      </form>
-    </div>
-  </div>
-</nav>
-
-<main class="container">
-  <div class="bg-light p-5 rounded">
-    <h1>Exemplo de CRUD</h1>
-    <p class="lead">Exemplo de Insert em PHP.</p>
-    <a class="btn btn-lg btn-primary" href="php/insert.php" role="button">Insert em PHP &raquo;</a>
-    <p class="lead">Exemplo de Select em PHP.</p>
-    <a class="btn btn-lg btn-primary" href="php/select.php" role="button">Select em PHP &raquo;</a>	
-    <p class="lead">Exemplo de Update em PHP.</p>
-    <a class="btn btn-lg btn-primary" href="php/select.php" role="button">Update em PHP &raquo;</a>		
-    <p class="lead">Exemplo de Delete em PHP.</p>
-    <a class="btn btn-lg btn-primary" href="php/select.php" role="button">Delete em PHP &raquo;</a>		
-	
-  </div>
-</main>
-
-
-    <script src="https://getbootstrap.com/docs/5.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-
-      
-  </body>
+		</div>
+	</body>
 </html>
-
