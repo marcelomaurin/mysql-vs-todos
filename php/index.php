@@ -269,7 +269,11 @@
 					{
 						$scope.disableUpdate = {'display': 'block'}; 
 						$scope.edidpessoa = dado.idpessoa;
-						$scope.ednome = dado.nome;						
+						$scope.ednome = dado.nome;			
+						$scope.edprofissao = dado.profissao;			
+						$scope.eddtnasc = dado.dtnasc;
+						$scope.edsexo = dado.sexo;			
+						
 					}
 					
 					
